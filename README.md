@@ -202,3 +202,115 @@ footer {
     width: 100%;
 }
 
+
+# TASK 3
+
+# HTML FILES
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temperature Converter</title>
+    <link rel="stylesheet" href="styles2.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Temperature Converter</h1>
+        <input type="number" id="temperatureInput" placeholder="Enter temperature" required>
+        
+        <select id="unitSelect">
+            <option value="Celsius">Celsius (°C)</option>
+            <option value="Fahrenheit">Fahrenheit (°F)</option>
+            <option value="Kelvin">Kelvin (K)</option>
+        </select>
+        
+        <button id="convertButton">Convert</button>
+        
+        <div id="resultArea"></div>
+    </div>
+
+    <script src="script2.js"></script>
+</body>
+</html>
+
+#CSS FILES
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+input, select, button {
+    margin: 10px 0;
+    padding: 10px;
+    width: 100%;
+}
+
+#resultArea {
+    margin-top: 20px;
+    font-size: 1.2em;
+}
+
+# JAVASCRIPT FILES
+
+document.getElementById('convertButton').addEventListener('click', function() {
+    const temperatureInput = document.getElementById('temperatureInput').value;
+    const unitSelect = document.getElementById('unitSelect').value;
+    const resultArea = document.getElementById('resultArea');
+
+    // Validate input
+    if (isNaN(temperatureInput) || temperatureInput === '') {
+        resultArea.innerHTML = 'Please enter a valid number.';
+        return;
+    }
+
+    const temperature = parseFloat(temperatureInput);
+    let convertedTemperature;
+    let unit;
+
+    // Conversion logic
+    switch (unitSelect) {
+        case 'Celsius':
+            convertedTemperature = (temperature * 9/5) + 32; // Celsius to Fahrenheit
+            unit = '°F';
+            break;
+        case 'Fahrenheit':
+            convertedTemperature = (temperature - 32) * 5/9; // Fahrenheit to Celsius
+            unit = '°C';
+            break;
+        case 'Kelvin':
+            // Convert Kelvin to Celsius
+            if (temperature < 0) {
+                resultArea.innerHTML = 'Temperature in Kelvin cannot be negative.';
+                return;
+            }
+            convertedTemperature = temperature - 273.15; // Kelvin to Celsius
+            unit = '°C';
+            break;
+        default:
+            resultArea.innerHTML = 'Invalid unit selected.';
+            return;
+    }
+
+    // Display the result
+    resultArea.innerHTML = `Converted Temperature: ${convertedTemperature.toFixed(2)} ${unit}`;
+});
+
